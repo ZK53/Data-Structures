@@ -1,27 +1,27 @@
-public class List {
-    private String[] arr;
+public class List<Item> {
+    private Item[] arr;
     int size;
 
     public List(int capacity) {
-        arr = new String[capacity];
+        arr = (Item[]) new Object[capacity];
         size = 0;
     }
 
-    public String get(int index) {
+    public Item get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
         return arr[index];
     }
 
-    public void set(int index, String item) {
+    public void set(int index, Item item) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
         arr[index] = item;
     }
 
-    public void add(int index, String item) {
+    public void add(int index, Item item) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
@@ -57,7 +57,8 @@ public class List {
         String string = "[";
         for (int i = 0; i < size; i++) {
             string += arr[i];
-            if(i < size - 1) string += ", ";
+            if (i < size - 1)
+                string += ", ";
         }
         string += "]";
         return string;
