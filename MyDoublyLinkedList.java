@@ -46,13 +46,11 @@ public class MyDoublyLinkedList<T> {
     public void linkFirst(T t) {
         Node<T> newNode = new Node<T>(t);
         if (head == null) {
-            head = newNode;
+            head = tail = newNode;
         } else {
-            Node<T> h = head;
-            newNode.previous = null;
-            newNode.next = h;
-            h.previous = newNode;
-            h.next = h.next.next;
+            newNode.next = head;
+            head.previous = newNode;
+            head = newNode;
         }
         size++;
     }
@@ -60,22 +58,30 @@ public class MyDoublyLinkedList<T> {
     public void unlinkFirst() {
         if (head == null)
             return;
-        head = head.next;
-        head.previous = null;
+        if (head.next == null) {
+            head = tail = null;
+        } else {
+            head = head.next;
+            head.previous = null;
+        }
         size--;
     }
 
     public void add(T t, int index) {
-        Node<T> newNode = new Node<T>(t);
         if (index == 0) {
             linkFirst(t);
+        } else if (index == size) {
+            linkLast(t);
         } else {
-            Node<T> predNode = head;
+            Node<T> newNode = new Node<T>(t);
+            Node<T> currentNode = head;
             for (int i = 0; i < index; i++) {
-                predNode = predNode.next;
+                currentNode = currentNode.next;
             }
-            newNode.next = predNode.next;
-            newNode.previous = predNode;
+            newNode.previous = currentNode.previous;
+            newNode.next = currentNode;
+            currentNode.previous.next = newNode;
+            currentNode.previous = newNode;
             size++;
         }
     }
@@ -87,18 +93,25 @@ public class MyDoublyLinkedList<T> {
     public void linkLast(T t) {
         Node<T> newNode = new Node<T>(t);
         if (head == null) {
-            head = newNode;
+            head = tail = newNode;
         } else {
-            Node<T> last = tail;
-            last.next = newNode;
-            newNode.previous = last;
+            tail.next = newNode;
+            newNode.previous = tail;
+            tail = newNode;
 
         }
         size++;
     }
 
     public void unlinkLast() {
-        tail.previous.next = null;
+        if (tail == null)
+            return;
+        if (tail.previous == null) {
+            head = tail = null;
+        } else {
+            tail = tail.previous;
+            tail.next = null;
+        }
         size--;
     }
 
@@ -142,6 +155,7 @@ public class MyDoublyLinkedList<T> {
             if (currentNode.data.equals(t)) {
                 return i;
             }
+            currentNode = currentNode.next;
         }
         return -1;
     }
