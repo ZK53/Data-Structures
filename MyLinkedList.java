@@ -40,10 +40,15 @@ public class MyLinkedList<T> {
     }
 
     public void linkfirst(T t) {
-        final Node<T> f = first;
         final Node<T> newNode = new Node<T>(t);
-        newNode.next = f;
-        first = newNode;
+        if (first == null) {
+            first = newNode;
+        } else {
+            final Node<T> f = first;
+            newNode.next = f;
+            first = newNode;
+        }
+
         size++;
     }
 
@@ -59,14 +64,14 @@ public class MyLinkedList<T> {
         Node<T> predNode = first;
         if (index == 0) {
             linkfirst(t);
-            return;
+        } else {
+            for (int i = 0; i < index - 1; i++) {
+                predNode = predNode.next;
+            }
+            newNode.next = predNode.next;
+            predNode.next = newNode;
+            size++;
         }
-        for (int i = 0; i < index - 1; i++) {
-            predNode = predNode.next;
-        }
-        newNode.next = predNode.next;
-        predNode.next = newNode;
-        size++;
     }
 
     public void add(T t) {
@@ -143,13 +148,11 @@ public class MyLinkedList<T> {
 
     public int indexOf(T t) {
         Node<T> currentNode = first;
-        int i = 0;
-        while (currentNode.next != null) {
+        for (int i = 0; i < size; i++) {
             if (currentNode.data.equals(t)) {
                 return i;
             }
             currentNode = currentNode.next;
-            i++;
         }
         return -1;
     }
