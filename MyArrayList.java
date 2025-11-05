@@ -1,8 +1,9 @@
-public class List<Item> {
+public class MyArrayList<Item> {
     private Item[] arr;
     int size;
 
-    public List(int capacity) {
+    @SuppressWarnings("unchecked")
+    public MyArrayList(int capacity) {
         arr = (Item[]) new Object[capacity];
         size = 0;
     }
