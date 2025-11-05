@@ -75,7 +75,7 @@ public class MyLinkedStack<T> {
         StringBuilder stack = new StringBuilder("{");
         while (currentNode != null) {
             stack.append(currentNode.data.toString());
-            if (currentNode != null) {
+            if (currentNode.next != null) {
                 stack.append(", ");
             }
             currentNode = currentNode.next;
